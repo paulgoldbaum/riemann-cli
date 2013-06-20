@@ -9,5 +9,6 @@ Gem::Specification.new do |s|
   s.executables << 'riemann-cli'
   s.homepage    =
     'http://github.com/paulgoldbaum/riemann-cli'
-  s.add_dependency 'riemann-client'
+  s.add_dependency 'riemann-client', '>= 0.2.2'
+  s.add_dependency 'thor', '>= 0.18.0'
 end
