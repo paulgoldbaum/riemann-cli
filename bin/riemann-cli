@@ -21,12 +21,7 @@ class MyCLI < Thor
 	option :ttl, :type => :numeric, :desc => 'Floating-point number of seconds this event is considered valid for'
 	def send()
         puts options if options[:verbose]
-        connection_opts = {
-            host: options[:server], 
-            port: options[:port],
-            timeout: options[:timeout]
-        }
-	    c = Riemann::Client.new connection_opts
+        c = connect(options[:host], options[:port], options[:timeout])
         event_fields = [:host, :service, :state, :time, :description, :tags, :metric, :ttl]
         event = {}
         event_fields.each do |f|
@@ -44,8 +39,18 @@ class MyCLI < Thor
 	end
 
 	desc 'query', 'Queries the index'
+    option :string, :desc => 'Query string in Riemann query format', :default => 'true'
 	def query()
+        puts options if options[:verbose]
+        c = connect(options[:host], options[:port], options[:timeout])
+        puts c[options[:string]]
 	end
+
+    no_commands do
+        def connect(host, port, timeout)
+            return Riemann::Client.new host: host, port: port, timeout: timeout
+        end
+    end
 end
 
 MyCLI.start(ARGV)
