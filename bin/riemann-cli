@@ -1,0 +1,32 @@
+#!/usr/bin/env ruby
+$VERBOSE=true
+
+require 'thor'
+require 'riemann/client'
+
+ 
+class MyCLI < Thor
+	desc 'send', 'Sends a metric to Riemann'
+	option :server, :desc => 'Server to send the event to', :default => 'localhost'
+	option :port, :desc => 'Riemann server port'
+	option :host, :desc => 'Host that produces the metric. Default is gethostbyname()' 
+	option :service , :desc=> 'Service that produced the event' 
+	option :state, :desc => 'Service state'
+	option :time, :desc => 'Time of the event in unix epoch seconds. Default is current time'
+	option :description, :desc => 'Event description'
+	option :tags, :type => :array, :desc => 'List of tags'
+	option :metric, :type => :numeric, :desc => 'Value of the metric'
+	option :ttl, :type => :numeric, :desc => 'Floating-point number of seconds this event is considered valid for'
+	option :tcp, :type => :boolean , :desc => 'Use TCP transport'
+	option :udp, :type => :boolean, :desc => 'Use UDP transport. Default'
+	def send()
+	    c = Riemann::Client.new host: 'localhost', port: 5555
+
+	end
+
+	desc 'query', 'Queries the index'
+	def query()
+	end
+end
+
+MyCLI.start(ARGV)
