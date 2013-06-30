@@ -1,7 +1,11 @@
 Riemann CLI
 ===========
 
-Simple command-line tool that sends events to [Riemann](http://riemann.io) or queries it's index
+Simple command-line tool that sends events to [Riemann](http://riemann.io) or queries it's index. 
+
+Install with `gem install riemann-cli`
+
+# Usage
 
     riemann-cli help [COMMAND]  # Describe available commands or one specific command
     riemann-cli query           # Queries the index
