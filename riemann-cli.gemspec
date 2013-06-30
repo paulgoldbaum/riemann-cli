@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'riemann-cli'
-  s.version     = '0.1.0'
+  s.version     = '0.1.1'
   s.date        = '2013-06-20'
   s.summary     = "Command-line Riemann client"
   s.description = "A simple command-line tool to send events to Riemann"
