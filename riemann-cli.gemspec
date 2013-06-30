@@ -6,6 +6,7 @@ Gem::Specification.new do |s|
   s.description = "A simple command-line tool to send events to Riemann"
   s.authors     = ["Paul Goldbaum"]
   s.email       = 'paul.goldbaum@gmail.com'
+  s.license     = 'MIT'
   s.executables << 'riemann-cli'
   s.homepage    =
     'http://github.com/paulgoldbaum/riemann-cli'
