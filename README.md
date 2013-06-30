@@ -1,7 +1,7 @@
 Riemann CLI
 ===========
 
-Simple command-line tool that sends events to [Riemann](riemann.io) or queries it's index
+Simple command-line tool that sends events to [Riemann](http://riemann.io) or queries it's index
 
     riemann-cli help [COMMAND]  # Describe available commands or one specific command
     riemann-cli query           # Queries the index
@@ -43,15 +43,16 @@ Sends an event to Riemann
 
 # riemann-cli query
 
-Queries the index
-
+Queries the index. The output can be controlled by the `--format` argument. The format string can contain placeholders of the form `%{name}` which will be substituted with the corresponding value. By default, query returns everything contained in the index
     Options:
           [--string=STRING]  # Query string in Riemann query format
                              # Default: true
+          [--format=FORMAT]  # Format string for the output
+                             # Default: {host:"%{host}", service:"%{service}", state:"%{state}", time:%{time}, description:"%{description}", tags:%{tags}, metric_f:%{metric_f}, metric_d:%{metric_d}, metric_sint64:%{metric_sint64}, ttl:%{ttl}}
           [--server=SERVER]  # Server address
                              # Default: localhost
           [--port=N]         # Riemann server port
                              # Default: 5555
           [--timeout=N]      # Connection timeout
                              # Default: 5
-      -v, [--verbose]        
+      -v, [--verbose]

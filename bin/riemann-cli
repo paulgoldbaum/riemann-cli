@@ -38,7 +38,7 @@ class MyCLI < Thor
         end
     end
 
-    desc 'query', 'Queries the index'
+    desc 'query', 'Queries the index. The output can be controlled by the `--format` argument. The format string can contain placeholders of the form `%{name}` which will be substituted with the corresponding value. By default, query returns everything contained in the index'
     option :string, :desc => 'Query string in Riemann query format', :default => 'true'
     option :format, :desc => 'Format string for the output', :default => "{host:\"%{host}\", service:\"%{service}\", state:\"%{state}\", time:%{time}, description:\"%{description}\", tags:%{tags}, metric_f:%{metric_f}, metric_d:%{metric_d}, metric_sint64:%{metric_sint64}, ttl:%{ttl}}"
     def query()
