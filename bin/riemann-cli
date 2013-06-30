@@ -2,24 +2,24 @@
 
 require 'thor'
 require 'riemann/client'
- 
+
 class MyCLI < Thor
-	class_option :server, :desc => 'Server address', :default => 'localhost'
-	class_option :port, :type => :numeric, :desc => 'Riemann server port', :default => 5555
+    class_option :server, :desc => 'Server address', :default => 'localhost'
+    class_option :port, :type => :numeric, :desc => 'Riemann server port', :default => 5555
     class_option :timeout, :type => :numeric, :desc => 'Connection timeout', :default => 5
     class_option :verbose, :type => :boolean, :aliases => ['-v']
 
-	desc 'send', 'Sends a metric to Riemann'
-	option :tcp, :type => :boolean , :desc => 'Use TCP transport'
-	option :host, :desc => 'Host that produces the metric. Default is gethostbyname()' 
-	option :service , :desc=> 'Service that produced the event' 
-	option :state, :desc => 'Service state'
-	option :time, :type => :numeric, :desc => 'Time of the event in unix epoch seconds. Default is current time'
-	option :description, :desc => 'Event description'
-	option :tags, :type => :array, :desc => 'List of tags'
-	option :metric, :type => :numeric, :desc => 'Value of the metric'
-	option :ttl, :type => :numeric, :desc => 'Floating-point number of seconds this event is considered valid for'
-	def send()
+    desc 'send', 'Sends a metric to Riemann'
+    option :tcp, :type => :boolean , :desc => 'Use TCP transport'
+    option :host, :desc => 'Host that produces the metric. Default is gethostbyname()' 
+    option :service , :desc=> 'Service that produced the event' 
+    option :state, :desc => 'Service state'
+    option :time, :type => :numeric, :desc => 'Time of the event in unix epoch seconds. Default is current time'
+    option :description, :desc => 'Event description'
+    option :tags, :type => :array, :desc => 'List of tags'
+    option :metric, :type => :numeric, :desc => 'Value of the metric'
+    option :ttl, :type => :numeric, :desc => 'Floating-point number of seconds this event is considered valid for'
+    def send()
         puts options if options[:verbose]
         c = connect(options[:host], options[:port], options[:timeout])
         event_fields = [:host, :service, :state, :time, :description, :tags, :metric, :ttl]
@@ -36,15 +36,21 @@ class MyCLI < Thor
             puts "Sending using udp" if options[:verbose]
             c.udp << event
         end
-	end
+    end
 
-	desc 'query', 'Queries the index'
+    desc 'query', 'Queries the index'
     option :string, :desc => 'Query string in Riemann query format', :default => 'true'
-	def query()
+    option :format, :desc => 'Format string for the output', :default => "{host:\"%{host}\", service:\"%{service}\", state:\"%{state}\", time:%{time}, description:\"%{description}\", tags:%{tags}, metric_f:%{metric_f}, metric_d:%{metric_d}, metric_sint64:%{metric_sint64}, ttl:%{ttl}}"
+    def query()
         puts options if options[:verbose]
         c = connect(options[:host], options[:port], options[:timeout])
-        puts c[options[:string]]
-	end
+        c[options[:string]].each do |r|
+            values_hash = r.to_hash()
+            puts options[:format].gsub(/%{(.*?)}/) { |m|
+                values_hash[$1.to_sym]
+            }
+        end
+    end
 
     no_commands do
         def connect(host, port, timeout)

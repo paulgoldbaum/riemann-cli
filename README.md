@@ -1,7 +1,7 @@
 Riemann CLI
 ===========
 
-Simple command-line tool that sends events to Riemann or queries it's index
+Simple command-line tool that sends events to [Riemann](riemann.io) or queries it's index
 
     riemann-cli help [COMMAND]  # Describe available commands or one specific command
     riemann-cli query           # Queries the index
