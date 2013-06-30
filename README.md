@@ -48,6 +48,7 @@ Sends an event to Riemann
 # riemann-cli query
 
 Queries the index. The output can be controlled by the `--format` argument. The format string can contain placeholders of the form `%{name}` which will be substituted with the corresponding value. By default, query returns everything contained in the index
+
     Options:
           [--string=STRING]  # Query string in Riemann query format
                              # Default: true
