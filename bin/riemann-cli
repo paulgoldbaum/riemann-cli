@@ -44,7 +44,7 @@ class MyCLI < Thor
     option :format, :desc => 'Format string for the output', :default => "{host:\"%{host}\", service:\"%{service}\", state:\"%{state}\", time:%{time}, description:\"%{description}\", tags:%{tags}, metric_f:%{metric_f}, metric_d:%{metric_d}, metric_sint64:%{metric_sint64}, ttl:%{ttl}}"
     def query()
         puts options if options[:verbose]
-        c = connect(options[:host], options[:port], options[:timeout])
+        c = connect(options[:server], options[:port], options[:timeout])
         c[options[:string]].each do |r|
             values_hash = r.to_hash()
             puts options[:format].gsub(/%{(.*?)}/) { |m|
