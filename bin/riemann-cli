@@ -21,7 +21,7 @@ class MyCLI < Thor
     option :ttl, :type => :numeric, :desc => 'Floating-point number of seconds this event is considered valid for'
     def send()
         puts options if options[:verbose]
-        c = connect(options[:host], options[:port], options[:timeout])
+        c = connect(options[:server], options[:port], options[:timeout])
         event_fields = [:host, :service, :state, :time, :description, :tags, :metric, :ttl]
         event = {}
         event_fields.each do |f|
